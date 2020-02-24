@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vintagestory
+  labels:
+    app: vintagestory
+  namespace: vintage
+spec:
+  selector:
+    matchLabels:
+      app: vintagestory
+  serviceName: vintagestory
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: vintagestory
+    spec:
+      containers:
+        - name: vintage-server
+          image: vintagestory-docker:latest
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: 2048Mi
+          env:
+            - name: TZ
+              value: "Europe/Berlin"
+          stdin: true
+          tty: true
+          workingDir: /home/vintage/
+          command: ["/bin/bash"]
+          args:
+            - /home/vintage/vintage-start.sh
+          volumeMounts:
+            - mountPath: /home/vintage/data
+              name: data
+          ports:
+            - name: vintage
+              containerPort: 42420
+              hostPort: 42420
+              protocol: TCP
+          securityContext:
+            runAsUser: 49494
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+      securityContext:
+        fsGroup: 49494
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/vintage/data
