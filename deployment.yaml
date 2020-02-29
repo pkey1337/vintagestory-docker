@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: vintage-server
-          image: vintagestory-docker:latest
+          image: vintagestory-docker:v1.12.5
           imagePullPolicy: Never
           resources:
             limits:
