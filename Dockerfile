@@ -9,8 +9,8 @@ WORKDIR "/home/vintage"
 
 COPY vintage-start.sh ./
 RUN mkdir server data && \
-    wget -P server/ https://cdn.vintagestory.at/gamefiles/stable/vs_server_1.12.4.tar.gz && \
-    tar -xzf server/vs_server_1.12.4.tar.gz -C server/
+    wget -P server/ https://cdn.vintagestory.at/gamefiles/stable/vs_server_1.12.5.tar.gz && \
+    tar -xzf server/vs_server_1.12.5.tar.gz -C server/
 RUN chown -R vintage:vintage . && chmod 750 vintage-start.sh
 
 USER vintage
